@@ -167,6 +167,20 @@ int main(void) {
 
         if (pressed & SCE_CTRL_CIRCLE) break;
         if (pressed & SCE_CTRL_TRIANGLE) {
+            // Reset flags for proper UI update
+            copied = 0;
+            adrenaline_missing = 0;
+            src_missing = 0;
+
+            // Show rescanning message
+            vita2d_start_drawing();
+            vita2d_clear_screen();
+            draw_centered_text(pgf, "Rescanning...", 120, RGBA8(255,255,255,255), 1.0f);
+            draw_centered_text(pgf, dest_dir, 150, RGBA8(180,180,180,255), 1.0f);
+            vita2d_end_drawing();
+            vita2d_swap_buffers();
+
+            // Re-run check and copy
             do_check_and_copy(dest_dir, dest_path, &copied, &adrenaline_missing, &src_missing, pgf);
         }
     }
